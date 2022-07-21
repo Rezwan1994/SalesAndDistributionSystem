@@ -1,0 +1,123 @@
+﻿@model List<SalesAndDistributionSystem.Domain.Models.TableModels.Company.Company_Info>
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+                        <html lang="en">
+                            <head>
+                                <meta charset='utf-8'>
+                                <title>Sales And Distribution - Login</title>
+
+                                <link href='/lib/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet'>
+                                <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+                                 <link href="/css/login.css" rel='stylesheet'>
+                                <link href="/Design/vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css">
+
+                                <script type='text/javascript' src='/lib/jquery/dist/jquery.min.js'></script>
+
+                                </head>
+                                <body class='snippet-body'>
+                                <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+    <div class="card card0 border-0">
+        <div class="row d-flex">
+            <div class="col-lg-6">
+                <div class="card1 pb-5">
+                    <div class="row"> <img src="/img/square-group-logo.png" class="logo"> </div>
+                    <div class="row px-3 justify-content-center mt-4 mb-5 border-line"> <img src="/img/login-background-1.jpg" class="image"> </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form method="post">
+
+                    <div class="card2 card border-0 px-4 py-5" style="font-size:20px;font-weight:500;min-height:200px">
+                   
+                        <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Select Company</h6>
+                        </label> 
+                        <select  class="mb-4 form-control select2-single"  name="CompanyId" required>
+                            @if(ViewBag.UserCompany!=null)
+                                    {
+                                            <option selected value="@Convert.ToInt32(ViewBag.UserCompany)">@Model.Where(x=>x.COMPANY_ID == Convert.ToInt32(ViewBag.UserCompany)).FirstOrDefault().COMPANY_NAME</option>
+
+                                    }
+                                    <option>Select Company</option>
+                            @foreach(var item in Model)
+                            {
+                                if(ViewBag.UserCompany!=null && item.COMPANY_ID == Convert.ToInt32(ViewBag.UserCompany))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                             <option value="@item.COMPANY_ID">@item.COMPANY_NAME</option>
+
+                                        }
+
+                            }
+                        </select>
+                        <br />
+                    </div>
+                    
+                         <div class="row px-3 mb-4">
+                      
+                    </div>
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Email Address</h6>
+                        </label> 
+                        <input class="mb-4" type="text" name="Email" value="@ViewBag.UserName" placeholder="Enter a valid email address" required>
+                    </div>
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Password</h6>
+                        </label>
+                        <input type="password" name="Password" placeholder="Enter password" value="@ViewBag.UserPass" required> 
+                    </div>
+                    @if(ViewBag.errorMessage !=null)
+                       {
+                           <div class="row px-3 mb-4">
+                               <label class="mb-1">
+                                  <h6 style="color:red" class="mb-0 text-sm">@ViewBag.errorMessage</h6>
+                               </label>
+                        
+                           </div> 
+                       }
+                         
+                    <div class="row px-3 mb-4">
+                        <div class="custom-control custom-checkbox custom-control-inline"> 
+                            <input id="chk1" type="checkbox" name="RememberMe" value="true" class="custom-control-input">
+                            <label for="chk1" class="custom-control-label text-sm">Remember me</label> 
+                        </div> 
+                        <a href="~/Security/Login/ForgetPassword" class="ml-auto mb-0 text-sm">Forgot Password?</a>
+                    </div>
+                    <div class="row mb-3 px-3"> 
+                        <button type="submit" class="btn btn-blue text-center">Login</button> 
+                    </div>
+                    <div class="row mb-4 px-3">
+                    </div>
+                </div>
+                </form>
+                
+            </div>
+        </div>
+        <div class="bg-blue py-4">
+            <div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2019. All rights reserved.</small>
+                <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
+            </div>
+        </div>
+    </div>
+</div>
+                                 <script src="~/Design/vendor/select2/dist/js/select2.min.js"></script>
+                                   <script type="text/javascript">
+    $(document).ready(function () {
+        $(".select2-single").select2({
+            placeholder: "Select...."
+        });
+        
+ });
+</script>  
+                             </body>
+                            </html>

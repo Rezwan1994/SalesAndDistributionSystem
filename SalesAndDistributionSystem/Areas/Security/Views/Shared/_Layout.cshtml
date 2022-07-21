@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Http
+@using  SalesAndDistributionSystem.Domain.Models.ViewModels.Security;
+@using System.Text.Json
+@{
+    System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+    sw.Start();
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+    <title>Sales and Distribution System</title>
+    <partial name="~/Views/Shared/_RefLinks.cshtml"></partial>
+</head>
+
+<body id="page-top" style="zoom:1.2">
+  <div id="wrapper">
+
+     <!-- Sidebar -->
+      <ul class="navbar-nav sidebar sidebar-light accordion"  id="accordionSidebar">
+        <partial name="~/Views/Shared/_SideMenuBar.cshtml" ></partial>
+
+      </ul>
+
+    <!--Body Part-->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+           <!-- TopBar -->
+           <partial name="~/Views/Shared/TopMenuBar.cshtml" ></partial>
+
+            @RenderBody()
+             
+
+         <!--Logout Modal-->
+                  <partial name="~/Views/Shared/_LogoutModal.cshtml" ></partial>
+
+        <!-- Footer -->
+         <!-- Footer -->
+      <footer class="sticky-footer bg-white" style="position:fixed;margin-bottom:0px;bottom:0;font-size:14px;width:100%;z-index:1000;">
+          <div class="row copyright">
+            
+              <div class="col-md-7" style="margin-left:10px">
+                  copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
+              <b><a href="#">Square Informatix Ltd</a></b>
+              </div>
+              <div class="col-md-1" style="margin-left:10px">
+                   @{ <strong class="text-bold font-black pull-right">Response: @(Math.Round(sw.Elapsed.TotalSeconds, 4))s </strong> sw.Stop();  }
+              </div>
+               <div class="col-md-1" style="margin-left:10px">
+                   <strong class="text-bold font-black pull-right">Version: 1.0.0</strong>
+              </div>
+          </div>
+       </footer>
+      <!-- Footer -->
+      </div>
+    
+    </div>
+  </div>
+
+<partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml"></partial>
+
+</body>
+
+</html>

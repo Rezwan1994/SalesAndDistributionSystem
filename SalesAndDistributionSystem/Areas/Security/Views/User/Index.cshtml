@@ -1,0 +1,145 @@
+﻿@{
+    ViewData["Title"] = "User";
+}
+<link href="/css/site.css" rel="stylesheet">
+<link href="/Design/vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css">
+
+
+
+<div class="container-fluid" id="container-wrapper"  ng-app="ngApp" ng-controller="ngGridCtrl" style="overflow: auto !important;max-height:60% !important;"  >
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h4 class="h3 mb-0 text-gray-600">User</h4>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a class="btn btn-primary mb-1" href="~/Security/User/index">User List</a></li>
+              <li class="breadcrumb-item"><button class="btn btn-success mb-1" ng-click="SaveData(model)"  ng-disabled="formMenuCategoryAdd.$invalid || model.EMPLOYEE_ID <1" ng-show="model.ADD_PERMISSION == 'Active'">Save</button></li>
+             </ol>
+   </div>
+   
+    <div class="card mb-4">
+              
+            <div class="card-body">
+
+
+                      <fieldset>
+                           <legend style="width:140px">User Entry</legend>
+
+                          <form name="formMenuCategoryAdd">
+                      <div class="row" style="margin:20px">
+                          <div class="col-md-3" >
+                               <div class="form-group">
+                      <label for="USER_NAME">User Name</label>
+                     <input id="EMAIL" type="text" class="form-control" 
+                                      name="EMAIL" ng-model="model.EMAIL"  placeholder="Enter User Email">
+                    </div>
+                          </div>
+                           <div class="col-md-3"  ng-disabled="model.USER_TYPE != 'SuperAdmin'">
+                                 <div class="form-group">
+                                     <label> Company </label>
+                                 <select  class="select2-single form-control" id="COMPANY_ID"  ng-disabled="model.USER_TYPE != 'SuperAdmin'"
+                                      name="COMPANY_ID" ng-model="model.COMPANY_ID" style="width:100%" ng-change="typeaheadSelectedCompany(model)" >
+
+                                      <option ng-repeat="item in CompanyData" ng-selected="item.COMPANY_ID == model.COMPANY_ID" value="{{item.COMPANY_ID}}">{{item.COMPANY_NAME}}</option>
+                                     </select>
+                    </div>
+                          </div>
+                           <div class="col-md-3" ng-show="{{model.USER_TYPE == 'SuperAdmin'}}" >
+                                 <div class="form-group">
+                                     <label for="UNIT_ID">Unit Id</label>
+                                       <select  class="select2-single form-control" id="UNIT_ID"
+                                      name="UNIT_ID" ng-model="model.UNIT_ID" style="width:100%">
+
+                                      <option ng-repeat="item in UnitData" value="{{item.UNIT_ID}}">{{item.UNIT_NAME}}</option>
+                                     </select>
+                                         
+                    
+                    </div>
+                          </div>
+
+                           <div class="col-md-3" >
+                                 <div class="form-group">
+                                     <label for="USER_TYPE">User Type</label>
+                                     <select  class="select2-single form-control" id="USER_TYPE"
+                                      name="USER_TYPE" ng-model="model.USER_TYPE" style="width:100%">
+
+                                      <option ng-repeat="item in UserTypeData" value="{{item.Type}}">{{item.Type}}</option>
+                                     </select>
+                                         
+                    
+                    </div>
+                          </div>
+                           <div class="col-md-3" >
+                                 <div class="form-group">
+                                     <label for="EMPLOYEE_ID">Employee Id</label>
+                                       <select  class="select2-single form-control" id="EMPLOYEE_ID"
+                                      name="EMPLOYEE_ID" ng-model="model.EMPLOYEE_ID" style="width:100%">
+
+                                      <option ng-repeat="item in EmployeeData" value="{{item.EMPLOYEE_ID}}">{{item.EMPLOYEE_NAME + "(" + item.EMPLOYEE_ID + ")"}}</option>
+                                     </select>
+                                  
+                                         
+                    
+                    </div>
+                          </div>
+                          
+                           
+                      </div>
+                   
+                  </form>
+                    </fieldset>
+              
+                     
+             </div>
+
+   
+                
+     </div>
+       <div class="card mb-4">
+              
+            <div class="card-body">
+
+          <fieldset>
+                     <legend style="width:140px">User List</legend>
+                      <div class="row" style="height: 57vh;">
+                         <div class="col-lg-12 mb-4">
+                              <div class="card" ng-show="model.LIST_VIEW == 'Active'" style="margin: 10px">
+                                   <div ui-grid="gridOptionsList" ui-grid-exporter ui-grid-auto-fit-columns ui-grid-resize-columns ui-grid-auto-resize
+                                     style="font-family: 'Open Sans', Arial, sans-serif; color: #252222 !important; height: 50vh;" class="grid">
+                        </div>    
+                 </div>
+            </div>
+          </div>
+                </fieldset>
+
+     </div>     
+     </div>
+         
+        
+
+
+
+        
+        <partial name="~/Views/Shared/_Loader.cshtml" ng-show="showloader" ></partial>
+
+      
+          <script src="~/ScriptsNg/Security/User/Controller/UserCtr.js"></script>
+          <script src="~/ScriptsNg/Security/User/Service/UserServices.js"></script>
+          <script src="~/ScriptsNg/Security/Company/Service/CompanyService.js"></script>
+
+         <script src="~/ScriptsNg/Services/permissionProvider.js"></script>
+
+          <script src="~/ScriptsNg/Services/gridRegistrationService.js"></script>
+            <script src="~/Design/vendor/select2/dist/js/select2.min.js"></script>
+
+
+
+          <script type="text/javascript">
+    $(document).ready(function () {
+        $(".select2-single").select2({
+            placeholder: "Select...."
+        });
+        
+ });
+</script>
+</div>
+

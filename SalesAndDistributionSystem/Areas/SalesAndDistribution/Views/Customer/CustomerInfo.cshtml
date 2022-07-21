@@ -1,0 +1,442 @@
+﻿@{
+    ViewData["Title"] = "Customer Info";
+}
+<link href="/css/site.css" rel="stylesheet">
+<link href="/Design/vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css">
+
+
+<div class="container-fluid" id="container-wrapper" ng-app="ngApp" ng-controller="ngGridCtrl" style="overflow: auto !important;max-height:50% !important;"  >
+<div class="d-sm-flex align-items-center justify-content-between mb-4 sm-breadcrumb" >
+            <h4 class="h3 mb-0 text-gray-600">
+                @ViewData["Title"].ToString()
+            </h4>
+            <ol class="breadcrumb">
+                     <li class="breadcrumb-item"><button class="btn  btn-danger mb-1"  ng-click="ClearForm()">Reset</button></li>
+              <li class="breadcrumb-item"><button  type="button" style="width: 100px;color:white;cursor:pointer" pe="button"  ng-disabled="formMenuCategoryAdd.$invalid"  name="btnSubmit"  class="btn  btn-success mb-1" ng-click="SaveData(model)">Save</button></li>
+
+
+          </ol>
+   </div>
+  
+
+       <div class="card mb-4">
+              
+            <div class="card-body">
+
+
+
+                  <form name="formMenuCategoryAdd">
+                      <fieldset>
+                           <legend style="width:220px">Customer Entry</legend>
+
+                      <div class="row" style="margin:20px">
+
+                          <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="COMPANY_ID">Company</label>
+                                 </div>
+                              <div class="col-md-8">
+                                  <select  class="select2-single form-control" id="COMPANY_ID" ng-disabled="model.USER_TYPE != 'SuperAdmin'"
+                                      name="COMPANY_ID" ng-model="model.COMPANY_ID" style="width:100%" ng-change="DataLoad(model.COMPANY_ID)">
+
+                                      <option ng-repeat="item in Companies" ng-selected="item.COMPANY_ID == model.COMPANY_ID" value="{{item.COMPANY_ID}}">{{item.COMPANY_NAME}}</option>
+                                     </select>
+                              </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-4 space-bottom" >
+                              <div class="row">
+                                <div class="col-md-4">
+                                   <label for="UNIT_ID">Unit</label>
+                          </div>
+                                <div class="col-md-8">
+                                  <select  class="select2-single form-control" id="UNIT_ID"
+                                      name="UNIT_ID" ng-model="model.UNIT_ID" style="width:100%">
+
+                                      <option ng-repeat="item in Unit" value="{{item.UNIT_ID}}" ng-selected="item.UNIT_ID == model.UNIT_ID" >{{item.UNIT_NAME}}</option>
+                                     </select>
+                                </div>
+                              </div>
+                            
+                          </div>
+                          <div class="col-md-4 space-bottom" >
+                              <div class="row">
+                                <div class="col-md-4">
+                                   <label for="STATUS">Status</label>
+                                 </div>
+                                <div class="col-md-8">
+                                  <select  class="select2-single form-control" id="CUSTOMER_STATUS"
+                                      name="CUSTOMER_STATUS" ng-model="model.CUSTOMER_STATUS" style="width:100%">
+
+                                      <option ng-repeat="item in Status" value="{{item.STATUS}}" ng-selected="item.STATUS == model.CUSTOMER_STATUS" >{{item.STATUS}}</option>
+                                     </select>
+                                </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="CUSTOMER_CODE">Customer Code</label>
+                                 </div>
+                              <div class="col-md-8">
+                                   <input id="CUSTOMER_CODE" type="text" class="form-control"  
+                                      name="CUSTOMER_CODE"  ng-model="model.CUSTOMER_CODE">
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-8 space-bottom">
+                              <div class="row">
+                                <div class="col-md-2">
+                                  <label for="CUSTOMER_NAME">Customer Name</label>
+                                 </div>
+                              <div class="col-md-10">
+                                   <input id="CUSTOMER_NAME" type="text" class="form-control"  required 
+                                      name="CUSTOMER_NAME"  ng-model="model.CUSTOMER_NAME">
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                             <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="TDS_FLAG">Is TDS Applicable</label>
+                                 </div>
+                              <div class="col-md-8">
+                                  
+                                   <select  class="select2-single form-control" id="TDS_FLAG"
+                                      name="TDS_FLAG" ng-model="model.TDS_FLAG" style="width:100%">
+
+                                      <option ng-repeat="item in Status" value="{{item.STATUS}}" ng-selected="item.STATUS == model.TDS_FLAG" >{{item.STATUS}}</option>
+                                     </select>      
+                              </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-8 space-bottom">
+                              <div class="row">
+                                <div class="col-md-2">
+                                  <label for="CUSTOMER_NAME_BANGLA">Customer (Bangla)</label>
+                                 </div>
+                              <div class="col-md-10">
+                                   <input id="CUSTOMER_NAME_BANGLA" type="text" class="form-control"  
+                                      name="CUSTOMER_NAME_BANGLA"  ng-model="model.CUSTOMER_NAME_BANGLA" >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="PRICE_TYPE_ID">Price Type</label>
+                                 </div>
+                              <div class="col-md-8">
+                              <select  class="select2-single form-control" id="PRICE_TYPE_ID"
+                                      name="PRICE_TYPE_ID" ng-model="model.PRICE_TYPE_ID" style="width:100%">
+
+                                      <option ng-repeat="item in PriceType" value="{{item.PRICE_TYPE_ID}}" ng-selected="item.PRICE_TYPE_ID == model.PRICE_TYPE_ID" >{{item.PRICE_TYPE_NAME}}</option>
+                                     </select>
+                              </div>
+                              </div>
+                            
+                          </div>
+                         
+                           <div class="col-md-8 space-bottom">
+                              <div class="row">
+                                <div class="col-md-2">
+                                  <label for="CUSTOMER_ADDRESS">Address</label>
+                                 </div>
+                              <div class="col-md-10">
+                                <input id="CUSTOMER_ADDRESS" type="text" class="form-control"  
+                                      name="CUSTOMER_ADDRESS"  ng-model="model.CUSTOMER_ADDRESS" >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                             <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="PROPRIETOR_NAME">Owner's Name</label>
+                                 </div>
+                              <div class="col-md-8">
+                              <input id="A" type="text" class="form-control"  
+                                      name="PROPRIETOR_NAME"  ng-model="model.PROPRIETOR_NAME"  >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-8 space-bottom" >
+                              <div class="row">
+                                <div class="col-md-2">
+                                   <label for="CUSTOMER_ADDRESS_BANGLA">Address (Bangla)</label>
+                                 </div>
+                                <div class="col-md-10">
+                                <input id="CUSTOMER_ADDRESS_BANGLA" type="text" class="form-control"   
+                                      name="CUSTOMER_ADDRESS_BANGLA"  ng-model="model.CUSTOMER_ADDRESS_BANGLA" >
+                                         
+                                </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="TRADE_LICENSE_NO">Trade License No</label>
+                                 </div>
+                              <div class="col-md-8">
+                              <input id="A" type="text" class="form-control"  
+                                      name="TRADE_LICENSE_NO"  ng-model="model.TRADE_LICENSE_NO"  >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="BIN_NO">BIN</label>
+                                 </div>
+                              <div class="col-md-8">
+                              <input id="A" type="text" class="form-control"   
+                                      name="BIN_NO"  ng-model="model.BIN_NO" >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                         
+                            <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="TIN_NO">TIN</label>
+                                 </div>
+                              <div class="col-md-8">
+                              <input id="A" type="text" class="form-control"   
+                                      name="TIN_NO"  ng-model="model.TIN_NO" >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                          <div class="col-md-4 space-bottom" >
+                              <div class="row">
+                                <div class="col-md-4">
+                                   <label for="CUSTOMER_EMAIL">Email</label>
+                                 </div>
+                                <div class="col-md-8">
+                                 <input id="A" type="text" class="form-control"   
+                                      name="CUSTOMER_EMAIL"  ng-model="model.CUSTOMER_EMAIL" >
+                                         
+                                </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-4 space-bottom" >
+                              <div class="row">
+                                <div class="col-md-4">
+                                   <label for="CUSTOMER_CONTACT">Contact</label>
+                                 </div>
+                                <div class="col-md-8">
+                                 <input id="A" type="text" class="form-control"  requER_CONTACT"  >
+                                         
+                                </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="CUSTOMER_TYPE_ID">Customer Type</label>
+                                 </div>
+                              <div class="col-md-8">
+                                    <select  class="select2-single form-control" id="CUSTOMER_TYPE_ID"
+                                      name="CUSTOMER_TYPE_ID" ng-model="model.CUSTOMER_TYPE_ID" style="width:100%">
+
+                                      <option ng-repeat="item in CustomerType" value="{{item.CUSTOMER_TYPE_ID}}" ng-selected="item.CUSTOMER_TYPE_ID == model.CUSTOMER_TYPE_ID" >{{item.CUSTOMER_TYPE_NAME}}</option>
+                                     </select>      
+                              </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="CONTACT_PERSON_NAME">Contact Person Name </label>
+                                 </div>
+                              <div class="col-md-8">
+                                     <input id="A" type="text" class="form-control"   
+                                      name="CONTACT_PERSON_NAME"  ng-model="model.CONTACT_PERSON_NAME" >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="CONTACT_PERSON_NO">Contact Person's No</label>
+                                 </div>
+                              <div class="col-md-8">
+                                    <input id="CONTACT_PERSON_NO" type="text" class="form-control"   
+                                      name="CONTACT_PERSON_NO"  ng-model="model.CONTACT_PERSON_NO"  >
+                                          
+                              </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="SECURITY_MONEY">Security Money</label>
+                                 </div>
+                              <div class="col-md-8">
+                                    <input id="SECURITY_MONEY" type="number" class="form-control"   
+                                      name="SECURITY_MONEY"  ng-model="model.SECURITY_MONEY"  >
+                                          
+                              </div>
+                              </div>
+                            
+                          </div>
+                          
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="DB_LOCATION_NAME">DB Location</label>
+                                 </div>
+                              <div class="col-md-8">
+                                    <input id="DB_LOCATION_NAME" type="text" class="form-control"   
+                                      name="DB_LOCATION_NAME"  ng-model="model.DB_LOCATION_NAME"  >
+                                        
+                              </div>
+                              </div>
+                            
+                          </div>
+                            <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="VAT_REG_NO">Vat Reg No</label>
+                                 </div>
+                              <div class="col-md-8">
+                                   <input id="VAT_REG_NO" type="text" class="form-control"    
+                                      name="VAT_REG_NO"  ng-model="model.VAT_REG_NO"  >
+                                      
+                              </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="DELIVERY_ADDRESS">Delivery Address</label>
+                                 </div>
+                              <div class="col-md-8">
+                                   <input id="DELIVERY_ADDRESS" type="text" class="form-control"    
+                                      name="DELIVERY_ADDRESS"  ng-model="model.DELIVERY_ADDRESS" >
+                                           
+                              </div>
+                              </div>
+                            
+                          </div>
+                           <div class="col-md-4 space-bottom">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label for="DELIVERY_ADDRESS_BANGLA">Delivery Address (Bangla)</label>
+                                 </div>
+                              <div class="col-md-8">
+                                   <input id="DELIVERY_ADDRESS_BANGLA" type="text" class="form-control"    
+                                      name="DELIVERY_ADDRESS_BANGLA"  ng-model="model.DELIVERY_ADDRESS_BANGLA" >
+                                      
+                              </div>
+                              </div>
+                            
+                          </div>
+                          
+                           <div class="col-md-8 space-bottom">
+                              <div class="row">
+                                <div class="col-md-2">
+                                  <label for="CUSTOMER_REMARKS">Remarks</label>
+                                 </div>
+                              <div class="col-md-10">
+                                   <input id="CUSTOMER_REMARKS" type="text" class="form-control"  
+                                      name="CUSTOMER_REMARKS"  ng-model="model.CUSTOMER_REMARKS"  >
+                                         
+                              </div>
+                              </div>
+                            
+                          </div>
+                      </div>
+                    </fieldset>
+                  </form>
+              
+                     
+             </div>
+
+   
+                
+     </div>
+       <div class="card mb-4">
+              
+            <div class="card-body">
+
+          <fieldset style="overflow:hidden;">
+                     <legend style="width:190px">Customer List</legend>
+                     <div class="row" style="background-color:#eaecf4;margin-top:5px;padding:5px">
+                         <div class="col-md-8"><h5 style="margin-left:10px;margin-top:7px;font-weight:700;color:blueviolet"><sup>*</sup>Please Click on CheckBox of All, Active and InActive to view Status filtered Data</h5></div>
+                         <div class="col-md-1" style="display:flex;font-weight:700;color:blueviolet;style="justify-content:left""><input id="AllCustomer" type="checkbox"  style="height:30px"     class="form-control"    
+                                      name="AllCustomer" ng-checked="ActiveCustomer == false && InActiveCustomer == false && AllCustomer == true"  ng-model="AllCustomer" ng-change="LoadStatusFilteredDataAll()"  ><label>All</label>
+                                      </div>
+                                      <div class="col-md-1" style="display:flex"><input id="ActiveCustomer" type="checkbox" class="form-control" style="height:30px"    
+                                      name="ActiveCustomer"  ng-model="ActiveCustomer"  ng-checked="ActiveCustomer == true && InActiveCustomer == false && AllCustomer == false" ng-change="LoadStatusFilteredDataActive()"><label >Active</label>
+                                      </div>
+                                        <div class="col-md-1" style="display:flex"><input id="InActiveCustomer" type="checkbox" class="form-control"   style="height:30px"       
+                                      name="InActiveCustomer"  ng-model="InActiveCustomer" ng-checked="ActiveCustomer == false && InActiveCustomer == true && AllCustomer == false"  ng-change="LoadStatusFilteredDataInActive()"><label>InActive</label>
+                                      </div>
+
+                     </div>
+                      <div class="row" style="height: 55vh;">
+                         <div class="col-lg-12 mb-4">
+                              <div class="card" ng-show="model.LIST_VIEW == 'Active'" style="margin: 10px">
+                                   <div ui-grid="gridOptionsList" ui-grid-exporter ui-grid-auto-fit-columns ui-grid-resize-columns ui-grid-auto-resize
+                                     style="font-family: 'Open Sans', Arial, sans-serif; color: #252222 !important; height: 50vh;" class="grid">
+                        </div>    
+                 </div>
+            </div>
+          </div>
+                </fieldset>
+
+     </div>     
+     </div>
+
+                  
+        <partial name="~/Views/Shared/_Loader.cshtml" ng-show="showloader" ></partial>
+
+            
+        
+           <script src="~/ScriptsNg/SalesAndDistribution/Customer/Controller/CustomerInfoCtr.js"></script>
+          <script src="~/ScriptsNg/SalesAndDistribution/Customer/Service/CustomerInfoServices.js"></script>
+          <script src="~/ScriptsNg/Services/permissionProvider.js"></script>
+
+          <script src="~/ScriptsNg/Services/gridRegistrationService.js"></script>
+            <script src="~/Design/vendor/select2/dist/js/select2.min.js"></script>
+
+
+
+          <script type="text/javascript">
+    $(document).ready(function () {
+        $(".select2-single").select2({
+        });
+       
+ });
+ 
+</script>
+
+
+</div>

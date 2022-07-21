@@ -1,0 +1,214 @@
+﻿@using Microsoft.AspNetCore.Http
+@using SalesAndDistributionSystem.Domain.Models.ViewModels.Security;
+@using System.Text.Json
+
+@{
+
+    MenuDistribution Model = new MenuDistribution();
+    Model.PermittedMenus = new List<PermittedMenu>();
+    Model.PermittedModules = new List<PermittedModule>();
+    string data = Context.Session.GetString("RolePermission");
+    if(data!=null)
+    {
+        Model = JsonSerializer.Deserialize<MenuDistribution>(data);
+
+    }
+    else
+    {
+        Context.Response.Redirect("Security/Login/Index");
+    }
+}
+<style>
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height:5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 2.5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6777ef; 
+  border-radius: 2.5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+}
+</style>
+
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/@Context.Session.GetString("DefaultPage")">
+        <div class="sidebar-brand-icon">
+          <img src="/img/square-group-logo.png" height="100" width="30">
+        </div>
+        <div class="sidebar-brand-text mx-3"> Square F&B</div>
+      </a>
+      <hr class="sidebar-divider my-0">
+     
+      <li class="nav-item active">
+        <a class="nav-link" href="~/">
+          <img src="/img/dashboard-icon-1.png" style="height:20px;width:20px" />
+          <span>Dashboard</span></a>
+      </li>
+      <hr class="sidebar-divider">
+     
+       @foreach(var item in Model.PermittedModules.OrderBy(x=>x.ORDER_BY_NO))
+       { 
+          PermittedMenu _menuMaster = Model.PermittedMenus.Where(x=>x.MODULE_ID == item.MODULE_ID && x.MENU_SHOW == "Active").FirstOrDefault();
+           if(_menuMaster!= null )
+           { 
+               <li class="nav-item">
+        <a class="nav-link collapsed navcollapseBootstrapitem" id="@("navcollapseBootstrapitem"+item.MODULE_ID)" href="#" data-toggle="collapse" data-target="#@("collapseBootstrapitem"+item.MODULE_ID)"
+          style="font-weight:700;"  aria-expanded="true" aria-controls="@("collapseBootstrapitem"+item.MODULE_ID)">
+          <img src="/img/icon-square.png" style="height:18px;width:18px;margin-top:-2px">
+
+          <span>@item.MODULE_NAME</span>
+        </a>
+        <div id="@("collapseBootstrapitem"+item.MODULE_ID)" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar" style="max-height:300px;overflow-x:auto">
+          <div class="bg-white py-2 collapse-inner rounded">
+           
+            @foreach(var menu in Model.PermittedMenus.Where(x=>x.MODULE_ID == item.MODULE_ID && x.PARENT_MENU_ID ==0 && x.MENU_SHOW == "Active").OrderBy(x=>x.ORDER_BY_SLNO))
+                {
+                    List<PermittedMenu> subMenu = Model.PermittedMenus.Where(x=>x.PARENT_MENU_ID == menu.MENU_ID  && x.MENU_SHOW == "Active").ToList();
+                    if(subMenu == null || subMenu.Count<1)
+                    {
+                        <a class="collapse-item" id="@(menu.MENU_ID.ToString() + "_"+ menu.PARENT_MENU_ID.ToString()+ "_"+ item.MODULE_ID.ToString())" href="~/@menu.AREA/@menu.CONTROLLER/@menu.ACTION">@menu.MENU_NAME</a>
+
+                    }else{
+                          <button class="collapse-item dropdown-btn" id="@("btn_" + menu.MENU_ID.ToString() + "_"+ menu.PARENT_MENU_ID.ToString()+ "_"+ item.MODULE_ID.ToString())" ><span><img src="/img/fast-forward.gif" style="height:18px;width:18px;margin-top:-2px;margin-right:10px;right:0;justify-content:right"></span>@menu.MENU_NAME  </button>
+                      <div class="dropdown-container" id="@( menu.MENU_ID.ToString() + "_"+ menu.PARENT_MENU_ID.ToString())">
+          @foreach(var submenu in subMenu.OrderBy(x=>x.ORDER_BY_SLNO))
+                            {
+                                List<PermittedMenu> subMenu_1 = Model.PermittedMenus.Where(x=>x.PARENT_MENU_ID == submenu.MENU_ID  && x.MENU_SHOW == "Active").OrderBy(x=>x.ORDER_BY_SLNO).ToList();
+                    if(subMenu_1 == null || subMenu_1.Count<1)
+                    {
+                                 <a  class="collapse-item"  id="@(submenu.MENU_ID.ToString() + "_"+ submenu.PARENT_MENU_ID.ToString()+ "_"+ item.MODULE_ID.ToString())" href="~/@submenu.AREA/@submenu.CONTROLLER/@submenu.ACTION"><span><img src="/img/icons8-square-spinner.gif" style="height:18px;width:18px;margin-top:-2px;margin-right:10px;right:0;justify-content:right"></span>@submenu.MENU_NAME</a>
+
+                    }
+                    else
+                    {
+                          <button class="collapse-item dropdown-btn" id="@("btn_" + submenu.MENU_ID.ToString() + "_"+ submenu.PARENT_MENU_ID.ToString()+ "_"+ item.MODULE_ID.ToString())" ><span><img src="/img/turn-right.gif" style="height:18px;width:18px;margin-top:-2px;margin-right:10px;right:0;justify-content:right"></span>@submenu.MENU_NAME</button>
+                              <div class="dropdown-container" id="@(submenu.MENU_ID.ToString() + "_"+ submenu.PARENT_MENU_ID.ToString()+ "_"+ item.MODULE_ID.ToString())">
+                              @foreach(var submenu_1 in subMenu_1)
+                            {
+
+                                 <a  class="collapse-item" id="@(submenu_1.MENU_ID.ToString() + "_"+ submenu_1.PARENT_MENU_ID.ToString()+ "_"+ item.MODULE_ID.ToString())" href="~/@submenu_1.AREA/@submenu_1.CONTROLLER/@submenu_1.ACTION" onclick="setCookie(this)" ><span><img src="/img/icons8-square-spinner.gif" style="height:18px;width:18px;margin-top:-2px;margin-right:10px;right:0;justify-content:right"></span>@submenu_1.MENU_NAME</a>
+  
+                            }
+    
+  </div>
+                    }
+
+  
+                            }
+    
+  </div>
+                    }
+                }
+          
+           
+          </div>
+        </div>
+      </li>
+                    
+           }
+   
+       }
+    
+   
+    
+      <script>
+          var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+
+
+
+
+//-------hold menu----------
+  $(document).ready(function() {
+    $.ajax({
+        type: 'post',
+        method: 'post',
+        url: '/Security/MenuPermission/MenuCookieHolerGet',
+        dataType: "json",
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        success: function(data) {
+            debugger
+           $('#'+ data).parent().addClass("active");
+           $('#'+ data).css("display", "block");
+
+           alert('#'+ data);
+           alert($('#'+ data).parent());
+
+        },
+        error: function(data) {
+           debugger
+           $('#'+ data.responseText).addClass("active");
+           $('#'+ data.responseText).css("display", "block");
+           $('#'+ data.responseText).parent().addClass("active");
+           $('#'+ data.responseText).parent().css("display", "block");
+           $('#'+ data.responseText).parent().parent().css("display", "block");
+           $('#'+ data.responseText).parent().parent().addClass("active");
+           $('#'+ data.responseText).parent().parent().parent().css("display", "block");
+           $('#'+ data.responseText).parent().parent().parent().addClass("active");
+
+        
+           const myArray = data.responseText.split("_");
+           if(myArray.length>0)
+           {
+                $('#collapseBootstrapitem'+ myArray[2]).addClass("collapse show");
+                $('#'+ myArray[1]+'_'+myArray[2]).addClass("active");
+
+           }
+
+           
+        }
+
+    });
+});
+
+$('.navcollapseBootstrapitem').click(function() {
+
+     $('#'+  this.id.replace('nav','')).addClass("");
+     $('#'+  this.id.replace('nav','')).removeClass("");
+     $('#'+  this.id.replace('nav','')).css("display","")
+
+
+});
+$('.collapse-item').click(function() {
+    var Value = this.id;
+     $.ajax({
+        type: 'post',
+        method: 'post',
+        url: '/Security/MenuPermission/MenuCookieHolerSet',
+        dataType: "json",
+         headers: { 'Content-Type': 'application/json; charset=utf-8' },
+
+        data: JSON.stringify(Value),
+        success: function(data) {
+
+        }
+
+    });
+});
+
+  
+
+      </script>
