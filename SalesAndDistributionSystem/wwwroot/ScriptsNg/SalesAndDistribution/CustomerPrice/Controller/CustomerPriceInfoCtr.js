@@ -94,12 +94,12 @@
             name: 'ADD_COMMISSION', field: 'ADD_COMMISSION', displayName: 'Add Comm. 2', enableFiltering: true, width: '10%', cellTemplate:
                 ` <input type="number" class="form-control" ng-model="row.entity.ADD_COMMISSION2" >`
         }
-        , {
-            name: 'Action', displayName: 'Action', width: '15%', enableFiltering: false, enableColumnMenu: false, cellTemplate:
-                '<div style="margin:1px;">' +
-                '<button style="margin-bottom: 5px;" ng-show="grid.appScope.model.EDIT_PERMISSION == \'Active\'" ng-click="grid.appScope.EditData(row.entity)" type="button" class="btn btn-outline-primary mb-1">Delete</button>' +
-                '</div>'
-        },
+        //, {
+        //    name: 'Action', displayName: 'Action', width: '15%', enableFiltering: false, enableColumnMenu: false, cellTemplate:
+        //        '<div style="margin:1px;">' +
+        //        '<button style="margin-bottom: 5px;" ng-show="grid.appScope.model.EDIT_PERMISSION == \'Active\'" ng-click="grid.appScope.EditData(row.entity)" type="button" class="btn btn-outline-primary mb-1">Delete</button>' +
+        //        '</div>'
+        //},
 
     ];
 
@@ -451,7 +451,8 @@
                     $scope.model.EFFECT_END_DATE = data.data.EFFECT_END_DATE;
                     $scope.model.CustomerType = data.data.CustomerType;
                     $scope.model.REMARKS = data.data.REMARKS;
-
+                    $scope.model.CUSTOMER_STATUS = data.data.CUSTOMER_STATUS;
+                    $scope.model.ENTRY_DATE = data.data.ENTRY_DATE;
                     if (data.data.customerSkuPriceList != null) {
                         $scope.gridOptionsList.data  = data.data.customerSkuPriceList;
 

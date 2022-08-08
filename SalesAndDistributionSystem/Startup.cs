@@ -76,6 +76,7 @@ namespace SalesAndDistributionSystem
             services.AddTransient<IRegionManager, RegionManager>();
             services.AddTransient<IAreaManager, AreaManager>();
             services.AddTransient<ICustomerPriceInfoManager, CustomerPriceInfoManager>();
+            services.AddTransient<ICreditInfoManager, CreditInfoManager>();
             services.AddTransient<IMarketManager, MarketManager>();
             services.AddTransient<ITerritoryManager, TerritoryManager>();
 

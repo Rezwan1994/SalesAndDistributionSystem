@@ -18,7 +18,7 @@
         , { name: 'CUSTOMER_PRICE_MSTID', field: 'CUSTOMER_PRICE_MSTID', visible: false }
 
         , {
-            name: 'CUSTOMER_ID', field: 'CUSTOMER_ID', displayName: 'CUSTOMER ID', enableFiltering: true, width: '20%'
+            name: 'CUSTOMER_NAME', field: 'CUSTOMER_NAME', displayName: 'CUSTOMER NAME', enableFiltering: true, width: '20%'
         }
         , {
             name: 'EFFECT_START_DATE', field: 'EFFECT_START_DATE', displayName: 'EFFECT START DATE', enableFiltering: true, width: '20%'
